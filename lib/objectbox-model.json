@@ -1,0 +1,159 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "2:978354530695307512",
+      "lastPropertyId": "3:3609933219412969673",
+      "name": "Biblia",
+      "properties": [
+        {
+          "id": "1:35229122984407765",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7696647299759706750",
+          "name": "velhoTestamentoId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:5837581138182094753",
+          "relationTarget": "Testamento"
+        },
+        {
+          "id": "3:3609933219412969673",
+          "name": "novoTestamentoId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "3:4436225505688040395",
+          "relationTarget": "Testamento"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:2776166888091952450",
+      "lastPropertyId": "3:3250736292200470131",
+      "name": "Capitulo",
+      "properties": [
+        {
+          "id": "1:5218771542444322021",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "3:3250736292200470131",
+          "name": "numero",
+          "type": 6
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:8296689231686661436",
+          "name": "versiculos",
+          "targetId": "5:8396685455678618413"
+        }
+      ]
+    },
+    {
+      "id": "4:5353356144790035989",
+      "lastPropertyId": "2:427727005206992345",
+      "name": "Testamento",
+      "properties": [
+        {
+          "id": "1:2387665716135683757",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:427727005206992345",
+          "name": "nome",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "4:4371736052324638455",
+          "name": "livros",
+          "targetId": "6:6339586086367043129"
+        }
+      ]
+    },
+    {
+      "id": "5:8396685455678618413",
+      "lastPropertyId": "3:8583305453968248019",
+      "name": "Versiculo",
+      "properties": [
+        {
+          "id": "1:7806245502070636438",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5590735662660648335",
+          "name": "numero",
+          "type": 6
+        },
+        {
+          "id": "3:8583305453968248019",
+          "name": "conteudo",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:6339586086367043129",
+      "lastPropertyId": "2:5508764048416290882",
+      "name": "Livro",
+      "properties": [
+        {
+          "id": "1:4397438891995134128",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5508764048416290882",
+          "name": "nome",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "3:6494389622508671702",
+          "name": "capitulos",
+          "targetId": "3:2776166888091952450"
+        }
+      ]
+    }
+  ],
+  "lastEntityId": "6:6339586086367043129",
+  "lastIndexId": "3:4436225505688040395",
+  "lastRelationId": "4:4371736052324638455",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    8161291061944171036
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    1515708134120394993,
+    6261833103580489849,
+    1658293469330019822,
+    3236633171394263372,
+    3725834056642003008,
+    4394997633896901442,
+    5897502857700167867
+  ],
+  "retiredRelationUids": [
+    6253594921626277455
+  ],
+  "version": 1
+}

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "612236078847",
+    "project_id": "rezemelhor",
+    "storage_bucket": "rezemelhor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:612236078847:android:e90a4dc9fb6bca8803a6ca",
+        "android_client_info": {
+          "package_name": "com.reze_melhor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "612236078847-cgnemo6kd7r9c3c6925ludasnjpko5qk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reze_melhor",
+            "certificate_hash": "108b2ab3327aab4f45e65e3910b22bc87f083816"
+          }
+        },
+        {
+          "client_id": "612236078847-mm3gm5ioiv8hon2fgeg9n1o6qat6bird.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwYuqW6eQVUgBo6NWbjSgeIlrtksbIMTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "612236078847-mm3gm5ioiv8hon2fgeg9n1o6qat6bird.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "612236078847-69oaapusrmj11265v6m0p5t1d8v3vmmc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rezeMelhor"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
