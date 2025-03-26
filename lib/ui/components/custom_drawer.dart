@@ -47,10 +47,10 @@ class CustomDrawer extends StatelessWidget {
                         CustomListTile(
                           trailingAsset: "assets/svg/perfil.svg",
                           title: user != null ? "Meu Perfil" : "Login",
-                          onTap: () => Get.to(PerfilScreen()),
+                          onTap: () => Get.to(() => PerfilScreen()),
                         ),
                         CustomListTile(
-                          trailingAsset: "assets/svg/check-carrinho.svg", 
+                          trailingAsset: "assets/svg/check-carrinho.svg",
                           title: "Premium",
                           onTap: () {},
                         ),
@@ -71,7 +71,7 @@ class CustomDrawer extends StatelessWidget {
                             themeModeController.toggleThemeMode();
                           },
                         ),
-                        CustomListTile(             
+                        CustomListTile(
                           trailingAsset: "",
                           trailing: CircleAvatar(
                             radius: height * 0.015,
@@ -79,9 +79,7 @@ class CustomDrawer extends StatelessWidget {
                                 appColorController.appColor.value.primary,
                           ),
                           title: "Cor",
-                          onTap: () {
-                            appColorController.toggleAppColor();
-                          },
+                          onTap: () => appColorController.toggleAppColor(),
                         ),
                         CustomListTile(
                           title: "Configurações",

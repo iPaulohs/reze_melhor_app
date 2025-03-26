@@ -15,6 +15,9 @@ import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'domain/entities/biblia.dart';
+import 'domain/entities/novena.dart';
+import 'domain/entities/oracao.dart';
+import 'domain/entities/user.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -142,6 +145,152 @@ final _entities = <obx_int.ModelEntity>[
             name: 'capitulos',
             targetId: const obx_int.IdUid(3, 2776166888091952450))
       ],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(7, 3299263421545153545),
+      name: 'DiaNovena',
+      lastPropertyId: const obx_int.IdUid(4, 7662420739981699673),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 541702587598067633),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 4527668611710218207),
+            name: 'uid',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 2896665578295214496),
+            name: 'diaNovena',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 7662420739981699673),
+            name: 'conteudo',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(8, 5919184706871978007),
+      name: 'Novena',
+      lastPropertyId: const obx_int.IdUid(4, 2389174232810510383),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 4859025038493146570),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 460263649848607116),
+            name: 'uid',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 7839055450627731251),
+            name: 'titulo',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 2389174232810510383),
+            name: 'subtitulo',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[
+        obx_int.ModelRelation(
+            id: const obx_int.IdUid(5, 8060589398812255660),
+            name: 'dias',
+            targetId: const obx_int.IdUid(7, 3299263421545153545))
+      ],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(9, 4472521707576377095),
+      name: 'Oracao',
+      lastPropertyId: const obx_int.IdUid(5, 617597145925809941),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 8889147685519503141),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 8535058728527233250),
+            name: 'uid',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 344275403285571728),
+            name: 'titulo',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 2622817718066183667),
+            name: 'subtitulo',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 617597145925809941),
+            name: 'conteudo',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(10, 4992877398909705995),
+      name: 'User',
+      lastPropertyId: const obx_int.IdUid(8, 215812025469001283),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 1197561101072429928),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 1196264737149443132),
+            name: 'uid',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 7930550389029674896),
+            name: 'surname',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 3473821086113692096),
+            name: 'email',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 3940869466787258654),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 3846499280220443561),
+            name: 'provedorUid',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 1351342767349477524),
+            name: 'provedorAutenticacao',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 215812025469001283),
+            name: 'sexo',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -180,9 +329,9 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(6, 6339586086367043129),
+      lastEntityId: const obx_int.IdUid(10, 4992877398909705995),
       lastIndexId: const obx_int.IdUid(3, 4436225505688040395),
-      lastRelationId: const obx_int.IdUid(4, 4371736052324638455),
+      lastRelationId: const obx_int.IdUid(5, 8060589398812255660),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [8161291061944171036],
       retiredIndexUids: const [],
@@ -343,6 +492,183 @@ obx_int.ModelDefinition getObjectBoxModel() {
           obx_int.InternalToManyAccess.setRelInfo<Livro>(object.capitulos,
               store, obx_int.RelInfo<Livro>.toMany(3, object.id));
           return object;
+        }),
+    DiaNovena: obx_int.EntityDefinition<DiaNovena>(
+        model: _entities[5],
+        toOneRelations: (DiaNovena object) => [],
+        toManyRelations: (DiaNovena object) => {},
+        getId: (DiaNovena object) => object.id,
+        setId: (DiaNovena object, int id) {
+          object.id = id;
+        },
+        objectToFB: (DiaNovena object, fb.Builder fbb) {
+          final uidOffset = fbb.writeString(object.uid);
+          final conteudoOffset = fbb.writeString(object.conteudo);
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, uidOffset);
+          fbb.addInt64(2, object.diaNovena);
+          fbb.addOffset(3, conteudoOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final uidParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final diaNovenaParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          final conteudoParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final object = DiaNovena(
+              uid: uidParam, diaNovena: diaNovenaParam, conteudo: conteudoParam)
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
+        }),
+    Novena: obx_int.EntityDefinition<Novena>(
+        model: _entities[6],
+        toOneRelations: (Novena object) => [],
+        toManyRelations: (Novena object) =>
+            {obx_int.RelInfo<Novena>.toMany(5, object.id): object.dias},
+        getId: (Novena object) => object.id,
+        setId: (Novena object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Novena object, fb.Builder fbb) {
+          final uidOffset = fbb.writeString(object.uid);
+          final tituloOffset = fbb.writeString(object.titulo);
+          final subtituloOffset = fbb.writeString(object.subtitulo);
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, uidOffset);
+          fbb.addOffset(2, tituloOffset);
+          fbb.addOffset(3, subtituloOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final uidParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final tituloParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final subtituloParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final object = Novena(
+              uid: uidParam, titulo: tituloParam, subtitulo: subtituloParam)
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          obx_int.InternalToManyAccess.setRelInfo<Novena>(
+              object.dias, store, obx_int.RelInfo<Novena>.toMany(5, object.id));
+          return object;
+        }),
+    Oracao: obx_int.EntityDefinition<Oracao>(
+        model: _entities[7],
+        toOneRelations: (Oracao object) => [],
+        toManyRelations: (Oracao object) => {},
+        getId: (Oracao object) => object.id,
+        setId: (Oracao object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Oracao object, fb.Builder fbb) {
+          final uidOffset = fbb.writeString(object.uid);
+          final tituloOffset = fbb.writeString(object.titulo);
+          final subtituloOffset = object.subtitulo == null
+              ? null
+              : fbb.writeString(object.subtitulo!);
+          final conteudoOffset = fbb.writeString(object.conteudo);
+          fbb.startTable(6);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, uidOffset);
+          fbb.addOffset(2, tituloOffset);
+          fbb.addOffset(3, subtituloOffset);
+          fbb.addOffset(4, conteudoOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final uidParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final tituloParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final subtituloParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 10);
+          final conteudoParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 12, '');
+          final object = Oracao(
+              uid: uidParam,
+              titulo: tituloParam,
+              subtitulo: subtituloParam,
+              conteudo: conteudoParam)
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
+        }),
+    User: obx_int.EntityDefinition<User>(
+        model: _entities[8],
+        toOneRelations: (User object) => [],
+        toManyRelations: (User object) => {},
+        getId: (User object) => object.id,
+        setId: (User object, int id) {
+          object.id = id;
+        },
+        objectToFB: (User object, fb.Builder fbb) {
+          final uidOffset = fbb.writeString(object.uid);
+          final surnameOffset =
+              object.surname == null ? null : fbb.writeString(object.surname!);
+          final emailOffset = fbb.writeString(object.email);
+          final nameOffset = fbb.writeString(object.name);
+          final provedorUidOffset = fbb.writeString(object.provedorUid);
+          final provedorAutenticacaoOffset =
+              fbb.writeString(object.provedorAutenticacao);
+          final sexoOffset =
+              object.sexo == null ? null : fbb.writeString(object.sexo!);
+          fbb.startTable(9);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, uidOffset);
+          fbb.addOffset(2, surnameOffset);
+          fbb.addOffset(3, emailOffset);
+          fbb.addOffset(4, nameOffset);
+          fbb.addOffset(5, provedorUidOffset);
+          fbb.addOffset(6, provedorAutenticacaoOffset);
+          fbb.addOffset(7, sexoOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final uidParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final provedorUidParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 14, '');
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 12, '');
+          final surnameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 8);
+          final emailParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final provedorAutenticacaoParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 16, '');
+          final sexoParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 18);
+          final object = User(
+              uid: uidParam,
+              provedorUid: provedorUidParam,
+              name: nameParam,
+              surname: surnameParam,
+              email: emailParam,
+              provedorAutenticacao: provedorAutenticacaoParam,
+              sexo: sexoParam)
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
         })
   };
 
@@ -421,4 +747,100 @@ class Livro_ {
   /// see [Livro.capitulos]
   static final capitulos =
       obx.QueryRelationToMany<Livro, Capitulo>(_entities[4].relations[0]);
+}
+
+/// [DiaNovena] entity fields to define ObjectBox queries.
+class DiaNovena_ {
+  /// See [DiaNovena.id].
+  static final id =
+      obx.QueryIntegerProperty<DiaNovena>(_entities[5].properties[0]);
+
+  /// See [DiaNovena.uid].
+  static final uid =
+      obx.QueryStringProperty<DiaNovena>(_entities[5].properties[1]);
+
+  /// See [DiaNovena.diaNovena].
+  static final diaNovena =
+      obx.QueryIntegerProperty<DiaNovena>(_entities[5].properties[2]);
+
+  /// See [DiaNovena.conteudo].
+  static final conteudo =
+      obx.QueryStringProperty<DiaNovena>(_entities[5].properties[3]);
+}
+
+/// [Novena] entity fields to define ObjectBox queries.
+class Novena_ {
+  /// See [Novena.id].
+  static final id =
+      obx.QueryIntegerProperty<Novena>(_entities[6].properties[0]);
+
+  /// See [Novena.uid].
+  static final uid =
+      obx.QueryStringProperty<Novena>(_entities[6].properties[1]);
+
+  /// See [Novena.titulo].
+  static final titulo =
+      obx.QueryStringProperty<Novena>(_entities[6].properties[2]);
+
+  /// See [Novena.subtitulo].
+  static final subtitulo =
+      obx.QueryStringProperty<Novena>(_entities[6].properties[3]);
+
+  /// see [Novena.dias]
+  static final dias =
+      obx.QueryRelationToMany<Novena, DiaNovena>(_entities[6].relations[0]);
+}
+
+/// [Oracao] entity fields to define ObjectBox queries.
+class Oracao_ {
+  /// See [Oracao.id].
+  static final id =
+      obx.QueryIntegerProperty<Oracao>(_entities[7].properties[0]);
+
+  /// See [Oracao.uid].
+  static final uid =
+      obx.QueryStringProperty<Oracao>(_entities[7].properties[1]);
+
+  /// See [Oracao.titulo].
+  static final titulo =
+      obx.QueryStringProperty<Oracao>(_entities[7].properties[2]);
+
+  /// See [Oracao.subtitulo].
+  static final subtitulo =
+      obx.QueryStringProperty<Oracao>(_entities[7].properties[3]);
+
+  /// See [Oracao.conteudo].
+  static final conteudo =
+      obx.QueryStringProperty<Oracao>(_entities[7].properties[4]);
+}
+
+/// [User] entity fields to define ObjectBox queries.
+class User_ {
+  /// See [User.id].
+  static final id = obx.QueryIntegerProperty<User>(_entities[8].properties[0]);
+
+  /// See [User.uid].
+  static final uid = obx.QueryStringProperty<User>(_entities[8].properties[1]);
+
+  /// See [User.surname].
+  static final surname =
+      obx.QueryStringProperty<User>(_entities[8].properties[2]);
+
+  /// See [User.email].
+  static final email =
+      obx.QueryStringProperty<User>(_entities[8].properties[3]);
+
+  /// See [User.name].
+  static final name = obx.QueryStringProperty<User>(_entities[8].properties[4]);
+
+  /// See [User.provedorUid].
+  static final provedorUid =
+      obx.QueryStringProperty<User>(_entities[8].properties[5]);
+
+  /// See [User.provedorAutenticacao].
+  static final provedorAutenticacao =
+      obx.QueryStringProperty<User>(_entities[8].properties[6]);
+
+  /// See [User.sexo].
+  static final sexo = obx.QueryStringProperty<User>(_entities[8].properties[7]);
 }

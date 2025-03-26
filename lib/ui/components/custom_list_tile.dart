@@ -37,6 +37,7 @@ class CustomListTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: ListTile(
+            onTap: onTap,
             enableFeedback: false,
             dense: true,
             titleAlignment: ListTileTitleAlignment.center,
@@ -45,7 +46,7 @@ class CustomListTile extends StatelessWidget {
               style: GoogleFonts.montserrat(fontSize: height * 0.015),
             ),
             trailing:
-                trailingAsset != ""
+                trailingAsset.isNotEmpty
                     ? GestureDetector(
                       onTap: onTap,
                       child: SvgPicture.asset(

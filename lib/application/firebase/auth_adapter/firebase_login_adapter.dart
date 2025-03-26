@@ -96,18 +96,4 @@ class FirebaseLoginAdapter {
       return Failure(e.code, "Erro ao atualizar a senha.");
     }
   }
-
-  Future<Result<String>> updateProfilePicture(
-    UpdateProfilePictureVm updatePicData,
-  ) async {
-    final user = firebaseAuth.currentUser;
-    if (user != null) {
-        return await firebaseStorageAdapter.uploadMidia(
-        updatePicData.profilePicture,
-        updatePicData.userEmail,
-        updatePicData.pathRef,
-      );
-    }
-    return Failure("user-not-logged-in", "Usuário não autenticado.");
-  }
 }

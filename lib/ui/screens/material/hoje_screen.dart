@@ -85,7 +85,7 @@ class HojeScreen extends StatelessWidget {
                   context: context,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(8),
+                      top: Radius.circular(12),
                     ),
                   ),
                   constraints: BoxConstraints(maxHeight: height * 0.6),
@@ -93,6 +93,7 @@ class HojeScreen extends StatelessWidget {
                     return Container(
                       decoration: BoxDecoration(
                         color: adaptativeColor.getAdaptiveColorInvert(context),
+                        borderRadius: BorderRadius.circular(18)
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: width * 0.02),

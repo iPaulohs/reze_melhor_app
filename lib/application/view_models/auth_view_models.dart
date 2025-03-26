@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class LoginWithEmailVm {
   LoginWithEmailVm({required this.email, required this.password});
 
@@ -12,8 +10,9 @@ class CreateAccountVm {
     required this.nome,
     required this.sobrenome,
     required this.confirmPassword,
-    required this.email,
     required this.password,
+    required this.email,
+    required this.sexo
   });
 
   final String nome;
@@ -21,16 +20,5 @@ class CreateAccountVm {
   final String email;
   final String password;
   final String confirmPassword;
-}
-
-class UpdateProfilePictureVm {
-  UpdateProfilePictureVm({
-    required this.profilePicture,
-    required this.pathRef,
-    required this.userEmail,
-  });
-
-  final File profilePicture;
-  final String userEmail;
-  final String pathRef;
+  final String sexo;
 }

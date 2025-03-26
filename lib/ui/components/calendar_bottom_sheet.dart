@@ -133,7 +133,6 @@ class CalendarBottomSheet extends StatelessWidget {
                             '${date.day}',
                             style: TextStyle(
                               color: adaptativeColor.getAdaptiveColor(context),
-
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -168,6 +167,7 @@ class CalendarBottomSheet extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: CustomButton(
+                    color: colorAppController.appColor.value.secondary,
                     onPress: () {
                       selectedDayController.changeSelectedDay(
                         DateTime.now(),
@@ -179,7 +179,10 @@ class CalendarBottomSheet extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: CustomButton(onPress: () {}, textButton: "FECHAR"),
+                  child: CustomButton(
+                      onPress: () {},
+                      textButton: "FECHAR"
+                  ),
                 ),
               ],
             ),

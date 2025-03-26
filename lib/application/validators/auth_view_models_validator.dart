@@ -10,12 +10,8 @@ class LoginWithEmailVmValidator extends LucidValidator<LoginWithEmailVm> {
     ruleFor((x) => x.password, key: 'password')
         .notEmpty()
         .minLength(8, message: 'A senha precisa ter, pelo menos, 8 caracteres.')
-        .mustHaveLowercase(
-          message: "A senha precisa ter, pelo menos, uma letra maiúscula.",
-        )
-        .mustHaveUppercase(
-          message: "A senha precisa ter, pelo menos, uma letra minúscula.",
-        );
+        .mustHaveLowercase(message: "A senha precisa ter, pelo menos, uma letra maiúscula.",)
+        .mustHaveUppercase(message: "A senha precisa ter, pelo menos, uma letra minúscula.",);
   }
 }
 
@@ -25,6 +21,10 @@ class CreateAccountVmValidator extends LucidValidator<CreateAccountVm> {
         .notEmpty(message: "O nome não pode ficar vazio.")
         .minLength(3, message: "O nome precisa ter pelo menos, 3 caracteres.");
 
+    ruleFor((x) => x.sobrenome, key: "sobrenome")
+        .notEmpty(message: "O sobrenome não pode ficar vazio.")
+        .minLength(3, message: "O sobrenome precisa ter pelo menos, 3 caracteres.",);
+
     ruleFor((x) => x.email, key: "email")
         .notEmpty(message: "O email não pode ser vazio.")
         .validEmail(message: "O email não é válido.");
@@ -32,27 +32,10 @@ class CreateAccountVmValidator extends LucidValidator<CreateAccountVm> {
     ruleFor((x) => x.password, key: 'password')
         .notEmpty()
         .minLength(8, message: 'A senha precisa ter, pelo menos, 8 caracteres.')
-        .mustHaveLowercase(
-          message: "A senha precisa ter, pelo menos, uma letra maiúscula.",
-        )
-        .mustHaveUppercase(
-          message: "A senha precisa ter, pelo menos, uma letra minúscula.",
-        );
+        .mustHaveLowercase(message: "A senha precisa ter, pelo menos, uma letra maiúscula.",)
+        .mustHaveUppercase(message: "A senha precisa ter, pelo menos, uma letra minúscula.",);
 
-    ruleFor(
-      (x) => x.confirmPassword,
-      key: "confirmPassword",
-    ).equalTo((x) => x.password, message: "As senhas não são iguais.");
-  }
-}
-
-class UpdateProfilePictureVmValidator
-    extends LucidValidator<UpdateProfilePictureVm> {
-  UpdateProfilePictureVmValidator() {
-    ruleFor((x) => x.userEmail, key: "email").notEmpty().validEmail();
-
-    ruleFor((x) => x.pathRef, key: "pathRef").notEmpty();
-
-    ruleFor((x) => x.profilePicture, key: "profilePic").isNotNull();
+    ruleFor((x) => x.confirmPassword,key: "confirmPassword")
+        .equalTo((x) => x.password, message: "As senhas não são iguais.");
   }
 }

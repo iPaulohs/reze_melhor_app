@@ -16,6 +16,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    configurations.all {
+        exclude(group = "io.objectbox", module = "objectbox-android")
+    }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
@@ -33,11 +37,12 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+}
 
-    dependencies {
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
-        implementation("com.google.firebase:firebase-appcheck")
-    }
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    implementation("com.google.firebase:firebase-appcheck")
+    debugImplementation("io.objectbox:objectbox-android-objectbrowser:4.1.0")
 }
 
 flutter {

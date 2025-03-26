@@ -52,7 +52,6 @@ class RezeMelhorMaterialApp extends StatelessWidget {
 
   Future<String?> getFirstTime() async {
     final value = await storageService.getSecureValue(StorageKeys.firstTime) ?? "true";
-    logger.i(value);
      if (value == "true") {
       final jsonString = await rootBundle.loadString('assets/json/biblia.json'); 
       loaBiblia.salvarJsonNoStore(jsonString);
