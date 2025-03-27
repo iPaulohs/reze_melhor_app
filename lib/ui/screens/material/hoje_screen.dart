@@ -92,7 +92,7 @@ class HojeScreen extends StatelessWidget {
                   builder: (context) {
                     return Container(
                       decoration: BoxDecoration(
-                        color: adaptativeColor.getAdaptiveColorInvert(context),
+                        color: adaptativeColor.getAdaptiveColorOnSuave(context),
                         borderRadius: BorderRadius.circular(18)
                       ),
                       child: Padding(

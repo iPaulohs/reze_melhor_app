@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:reze_melhor/application/states/color_app_controller.dart';
 import 'package:reze_melhor/application/states/theme_mode_controller.dart';
-import 'package:reze_melhor/ui/components/custom_drawer_header.dart';
 import 'package:reze_melhor/ui/components/custom_list_tile.dart';
 import 'package:reze_melhor/ui/components/list_tile_block.dart';
 import 'package:reze_melhor/ui/screens/material/perfil_screen.dart';
@@ -26,16 +27,75 @@ class CustomDrawer extends StatelessWidget {
     return "assets/svg/device.svg";
   }
 
+  String capitalize(String text) {
+    return text
+        .split('-')
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join('-');
+  }
+
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+
     final user = FirebaseAuth.instance.currentUser;
     return Obx(
       () => Drawer(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomDrawerHeader(),
+            Padding(
+              padding: EdgeInsets.only(top: height * 0.1, bottom: height * 0.025),
+              child: CircleAvatar(
+                backgroundColor: adaptativeColor.getAdaptiveColorSuave(context),
+                radius: width * 0.1,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: height * 0.025),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Reze ",
+                              style: GoogleFonts.montserratAlternates(
+                                fontSize: width * 0.065,
+                              ),
+                            ),
+                            Text(
+                              "Melhor",
+                              style: GoogleFonts.montserratAlternates(
+                                fontWeight: FontWeight.bold,
+                                fontSize: width * 0.065,
+                                color: appColorController.appColor.value.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          capitalize(
+                            DateFormat('EEEE', 'pt_BR').format(DateTime.now()),
+                          ),
+                          style: GoogleFonts.montserratAlternates(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(DateFormat.yMMMMd("pt-BR").format(DateTime.now())),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Flexible(
               fit: FlexFit.loose,
               child: SingleChildScrollView(

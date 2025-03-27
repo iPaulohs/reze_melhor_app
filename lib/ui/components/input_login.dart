@@ -8,14 +8,14 @@ class InputLogin extends StatelessWidget {
   InputLogin({
     super.key,
     required this.label,
-    required this.icon,
+    this.icon,
     this.suffixIcon,
     required this.controller
   });
 
   final AdaptativeColor adaptativeColor = Get.find<AdaptativeColor>();
   final String label;
-  final Widget icon;
+  final Widget? icon;
   final Widget? suffixIcon;
   final TextEditingController controller;
 

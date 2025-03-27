@@ -72,17 +72,17 @@ class AdaptativeColor {
     final themeMode = themeModeController.themeMode.value;
 
     if (themeMode == ThemeMode.light) {
-      return const Color.fromARGB(255, 196, 196, 196);
+      return const Color.fromARGB(255, 235, 235, 235);
     }
     if (themeMode == ThemeMode.dark) {
-      return const Color.fromARGB(255, 70, 70, 70);
+      return const Color.fromARGB(255, 10, 10, 10);
     }
     if (themeMode == ThemeMode.system) {
       if (MediaQuery.of(context).platformBrightness == Brightness.light) {
-        return const Color.fromARGB(255, 196, 196, 196);
+        return const Color.fromARGB(255, 235, 235, 235);
       }
       if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
-        return const Color.fromARGB(255, 70, 70, 70);
+        return const Color.fromARGB(255, 10, 10, 10);
       }
     }
     return Colors.transparent;

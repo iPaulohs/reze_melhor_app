@@ -9,13 +9,15 @@ class User {
     required this.surname,
     required this.email,
     required this.provedorAutenticacao,
-    required this.sexo
+    required this.sexo,
+    required this.provedorId
   });
 
   @Id() 
   int id = 0;
 
   final String uid;
+  final String provedorId;
   final String? surname;
   final String email;
   final String name;
@@ -43,7 +45,8 @@ class User {
       email: map['email'],
       provedorUid: map['provedorId'],
       provedorAutenticacao: map['provedorAutenticacao'],
-      sexo: map['sexo']
+      sexo: map['sexo'],
+      provedorId: map["provedorId"]
     );
   }
 }

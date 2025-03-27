@@ -42,7 +42,7 @@ class WelcomeScreen extends StatelessWidget {
       skip: CustomButton(onPress: (){}, textButton: "Pular"),
       next: CustomButton(onPress: (){}, textButton: "Próximo"),
       done: CustomButton(onPress: (){
-        Get.to(HojeScreen(openDrawer: () => scaffoldKey.currentState?.openDrawer()));
+        Get.offAll(HojeScreen(openDrawer: () => scaffoldKey.currentState?.openDrawer()));
       }, textButton: "Concluir"),
     );
   }

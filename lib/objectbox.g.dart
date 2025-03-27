@@ -246,7 +246,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(10, 4992877398909705995),
       name: 'User',
-      lastPropertyId: const obx_int.IdUid(8, 215812025469001283),
+      lastPropertyId: const obx_int.IdUid(9, 5119840961069201754),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -287,6 +287,11 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(8, 215812025469001283),
             name: 'sexo',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 5119840961069201754),
+            name: 'provedorId',
             type: 9,
             flags: 0)
       ],
@@ -627,7 +632,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               fbb.writeString(object.provedorAutenticacao);
           final sexoOffset =
               object.sexo == null ? null : fbb.writeString(object.sexo!);
-          fbb.startTable(9);
+          final provedorIdOffset = fbb.writeString(object.provedorId);
+          fbb.startTable(10);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, uidOffset);
           fbb.addOffset(2, surnameOffset);
@@ -636,6 +642,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(5, provedorUidOffset);
           fbb.addOffset(6, provedorAutenticacaoOffset);
           fbb.addOffset(7, sexoOffset);
+          fbb.addOffset(8, provedorIdOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -658,6 +665,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 16, '');
           final sexoParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 18);
+          final provedorIdParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 20, '');
           final object = User(
               uid: uidParam,
               provedorUid: provedorUidParam,
@@ -665,7 +674,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               surname: surnameParam,
               email: emailParam,
               provedorAutenticacao: provedorAutenticacaoParam,
-              sexo: sexoParam)
+              sexo: sexoParam,
+              provedorId: provedorIdParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
@@ -843,4 +853,8 @@ class User_ {
 
   /// See [User.sexo].
   static final sexo = obx.QueryStringProperty<User>(_entities[8].properties[7]);
+
+  /// See [User.provedorId].
+  static final provedorId =
+      obx.QueryStringProperty<User>(_entities[8].properties[8]);
 }

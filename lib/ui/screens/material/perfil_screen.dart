@@ -7,6 +7,7 @@ import 'package:reze_melhor/application/states/color_app_controller.dart';
 import 'package:reze_melhor/application/states/theme_mode_controller.dart';
 import 'package:reze_melhor/ui/components/back_btn.dart';
 import 'package:reze_melhor/ui/components/custom_button.dart';
+import 'package:reze_melhor/ui/screens/material/form_criar_conta_screen.dart';
 import 'package:reze_melhor/ui/components/input_login.dart';
 import 'package:reze_melhor/ui/theme/color_theme.dart';
 
@@ -24,7 +25,6 @@ class PerfilScreen extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     final AdaptativeColor adaptativeColor = Get.find<AdaptativeColor>();
-    final ColorAppController colorAppController = Get.find<ColorAppController>();
 
     return Scaffold(
       key: scaffoldKey,
@@ -38,58 +38,7 @@ class PerfilScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: width * 0.075),
             child: OutlinedButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: adaptativeColor.getAdaptiveColorInvert(
-                          context,
-                        ),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        border: Border(
-                          left: BorderSide(
-                            color:
-                            colorAppController
-                                .appColor
-                                .value
-                                .primary,
-                            width: 0.2,
-                          ),
-                          right: BorderSide(
-                            color:
-                            colorAppController
-                                .appColor
-                                .value
-                                .primary,
-                            width: 0.2,
-                          ),
-                          top: BorderSide(
-                            color:
-                            colorAppController
-                                .appColor
-                                .value
-                                .primary,
-                            width: 0.2,
-                          ),
-                        ),
-                      ),
-                      height: height * 0.85,
-                      child: Center(
-                        child: Text(
-                          "Criar Conta",
-                          style: TextStyle(color: Colors.white, fontSize: 24),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
+              onPressed: () => Get.to(FormCriarConta()),
               child: Text(
                 "Criar Conta",
                 style: TextStyle(
@@ -117,8 +66,8 @@ class UserDetailsScreen extends StatelessWidget {
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final AdaptativeColor adaptativeColor = Get.find<AdaptativeColor>();
-  final ColorAppController colorAppController = Get.find<ColorAppController>();
+  final adaptativeColor = Get.find<AdaptativeColor>();
+  final colorAppController = Get.find<ColorAppController>();
 
   @override
   Widget build(BuildContext context) {
@@ -220,12 +169,12 @@ class LoginScreen extends StatelessWidget {
                         builder: (context) {
                           final keyboardHeight =
                               MediaQuery.of(context).viewInsets.bottom;
-                          final adjustedHeight = height * 0.35 + keyboardHeight;
+                          final adjustedHeight = height * 0.4 + keyboardHeight;
                           return SingleChildScrollView(
                             child: Container(
                               height: adjustedHeight,
                               decoration: BoxDecoration(
-                                color: adaptativeColor.getAdaptiveColorInvert(
+                                color: adaptativeColor.getAdaptiveColorOnSuave(
                                   context,
                                 ),
                                 borderRadius: BorderRadius.only(
@@ -234,42 +183,42 @@ class LoginScreen extends StatelessWidget {
                                 ),
                                 border: Border(
                                   left: BorderSide(
-                                    color:
-                                        colorAppController
-                                            .appColor
-                                            .value
-                                            .primary,
-                                    width: 0.2,
+                                    color: adaptativeColor
+                                        .getAdaptiveColorSuave(context),
+                                    width: 0.5,
                                   ),
                                   right: BorderSide(
-                                    color:
-                                        colorAppController
-                                            .appColor
-                                            .value
-                                            .primary,
-                                    width: 0.2,
+                                    color: adaptativeColor
+                                        .getAdaptiveColorSuave(context),
+                                    width: 0.5,
                                   ),
                                   top: BorderSide(
-                                    color:
-                                        colorAppController
-                                            .appColor
-                                            .value
-                                            .primary,
-                                    width: 0.2,
+                                    color: adaptativeColor
+                                        .getAdaptiveColorSuave(context),
+                                    width: 0.5,
                                   ),
                                 ),
                               ),
                               child: Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: Text(
-                                      "Faça login com o email:",
-                                      textAlign: TextAlign.left,
-                                      style: GoogleFonts.montserratAlternates(
-                                        fontSize: height * 0.025,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: height * 0.015,
+                                          vertical: width * 0.05,
+                                        ),
+                                        child: Text(
+                                          "Faça login o email",
+                                          textAlign: TextAlign.left,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: width * 0.05,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                   InputLogin(
                                     controller: emailController,
