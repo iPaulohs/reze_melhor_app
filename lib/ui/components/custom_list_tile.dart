@@ -36,29 +36,28 @@ class CustomListTile extends StatelessWidget {
             color: adaptativeColor.getAdaptiveColorSuave(context),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: ListTile(
+          child: GestureDetector(
             onTap: onTap,
-            enableFeedback: false,
-            dense: true,
-            titleAlignment: ListTileTitleAlignment.center,
-            title: Text(
-              title,
-              style: GoogleFonts.montserrat(fontSize: height * 0.015),
-            ),
-            trailing:
-                trailingAsset.isNotEmpty
-                    ? GestureDetector(
-                      onTap: onTap,
-                      child: SvgPicture.asset(
+            child: ListTile(
+              enableFeedback: false,
+              dense: true,
+              titleAlignment: ListTileTitleAlignment.center,
+              title: Text(
+                title,
+                style: GoogleFonts.montserrat(fontSize: height * 0.018, fontWeight: FontWeight.w500),
+              ),
+              trailing:
+                  trailingAsset.isNotEmpty
+                      ? SvgPicture.asset(
                         trailingAsset,
                         colorFilter: ColorFilter.mode(
                           adaptativeColor.getAdaptiveColor(context),
                           BlendMode.srcIn,
                         ),
-                      ),
-                    )
-                    : trailing,
-            leading: leading,
+                      )
+                      : trailing,
+              leading: leading,
+            ),
           ),
         ),
       ),

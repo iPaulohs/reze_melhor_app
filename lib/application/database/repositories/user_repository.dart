@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reze_melhor/application/utils/result_pattern.dart';
-import 'package:reze_melhor/domain/entities/user.dart';
 
 class UserRepository {
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -17,7 +16,7 @@ class UserRepository {
     throw UnimplementedError();
   }
 
-  Future<Result<User?>> getUser(String id) async {
+  Future<Result<UserRepository?>> getUser(String id) async {
     throw UnimplementedError();
   }
 }

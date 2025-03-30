@@ -5,15 +5,16 @@ import 'package:get/get.dart';
 import '../../application/states/color_app_controller.dart';
 
 class BackBtn extends StatelessWidget {
-   BackBtn({super.key});
+   BackBtn({super.key, this.onTap});
 
   final appColorController = Get.find<ColorAppController>();
-
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     
     return GestureDetector(
+      onTap: onTap ?? () => Get.back(),
       child: Container(
         decoration: BoxDecoration(
           color: appColorController.appColor.value.primary,
@@ -26,7 +27,6 @@ class BackBtn extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () => Get.back(),
     );
   }
 }

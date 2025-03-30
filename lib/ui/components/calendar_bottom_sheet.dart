@@ -180,6 +180,7 @@ class CalendarBottomSheet extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: CustomButton(
+                      textColor: colorAppController.appColor.value.tertiary,
                       onPress: () {},
                       textButton: "FECHAR"
                   ),

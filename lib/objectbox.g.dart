@@ -244,54 +244,44 @@ final _entities = <obx_int.ModelEntity>[
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(10, 4992877398909705995),
-      name: 'User',
-      lastPropertyId: const obx_int.IdUid(9, 5119840961069201754),
+      id: const obx_int.IdUid(11, 2540859080304930753),
+      name: 'UserEntity',
+      lastPropertyId: const obx_int.IdUid(9, 6962850854028578542),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 1197561101072429928),
+            id: const obx_int.IdUid(1, 1187259869325461198),
             name: 'id',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1196264737149443132),
-            name: 'uid',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 7930550389029674896),
+            id: const obx_int.IdUid(3, 7362343529323444886),
             name: 'surname',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 3473821086113692096),
+            id: const obx_int.IdUid(4, 5491750762232006577),
             name: 'email',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 3940869466787258654),
+            id: const obx_int.IdUid(5, 6054022767910148120),
             name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 3846499280220443561),
+            id: const obx_int.IdUid(6, 7579638603037308659),
             name: 'provedorUid',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 1351342767349477524),
+            id: const obx_int.IdUid(7, 8520773688030596541),
             name: 'provedorAutenticacao',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 215812025469001283),
+            id: const obx_int.IdUid(8, 9170004141617453966),
             name: 'sexo',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 5119840961069201754),
-            name: 'provedorId',
             type: 9,
             flags: 0)
       ],
@@ -334,11 +324,11 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(10, 4992877398909705995),
+      lastEntityId: const obx_int.IdUid(11, 2540859080304930753),
       lastIndexId: const obx_int.IdUid(3, 4436225505688040395),
       lastRelationId: const obx_int.IdUid(5, 8060589398812255660),
       lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [8161291061944171036],
+      retiredEntityUids: const [8161291061944171036, 4992877398909705995],
       retiredIndexUids: const [],
       retiredPropertyUids: const [
         1515708134120394993,
@@ -347,7 +337,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
         3236633171394263372,
         3725834056642003008,
         4394997633896901442,
-        5897502857700167867
+        5897502857700167867,
+        1197561101072429928,
+        1196264737149443132,
+        7930550389029674896,
+        3473821086113692096,
+        3940869466787258654,
+        3846499280220443561,
+        1351342767349477524,
+        215812025469001283,
+        5119840961069201754,
+        274251187647307504,
+        6962850854028578542
       ],
       retiredRelationUids: const [6253594921626277455],
       modelVersion: 5,
@@ -613,16 +614,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
 
           return object;
         }),
-    User: obx_int.EntityDefinition<User>(
+    UserEntity: obx_int.EntityDefinition<UserEntity>(
         model: _entities[8],
-        toOneRelations: (User object) => [],
-        toManyRelations: (User object) => {},
-        getId: (User object) => object.id,
-        setId: (User object, int id) {
+        toOneRelations: (UserEntity object) => [],
+        toManyRelations: (UserEntity object) => {},
+        getId: (UserEntity object) => object.id,
+        setId: (UserEntity object, int id) {
           object.id = id;
         },
-        objectToFB: (User object, fb.Builder fbb) {
-          final uidOffset = fbb.writeString(object.uid);
+        objectToFB: (UserEntity object, fb.Builder fbb) {
           final surnameOffset =
               object.surname == null ? null : fbb.writeString(object.surname!);
           final emailOffset = fbb.writeString(object.email);
@@ -632,25 +632,20 @@ obx_int.ModelDefinition getObjectBoxModel() {
               fbb.writeString(object.provedorAutenticacao);
           final sexoOffset =
               object.sexo == null ? null : fbb.writeString(object.sexo!);
-          final provedorIdOffset = fbb.writeString(object.provedorId);
           fbb.startTable(10);
           fbb.addInt64(0, object.id);
-          fbb.addOffset(1, uidOffset);
           fbb.addOffset(2, surnameOffset);
           fbb.addOffset(3, emailOffset);
           fbb.addOffset(4, nameOffset);
           fbb.addOffset(5, provedorUidOffset);
           fbb.addOffset(6, provedorAutenticacaoOffset);
           fbb.addOffset(7, sexoOffset);
-          fbb.addOffset(8, provedorIdOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
         objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
-          final uidParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
           final provedorUidParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 14, '');
@@ -665,17 +660,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 16, '');
           final sexoParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 18);
-          final provedorIdParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 20, '');
-          final object = User(
-              uid: uidParam,
+          final object = UserEntity(
               provedorUid: provedorUidParam,
               name: nameParam,
               surname: surnameParam,
               email: emailParam,
               provedorAutenticacao: provedorAutenticacaoParam,
-              sexo: sexoParam,
-              provedorId: provedorIdParam)
+              sexo: sexoParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
@@ -824,37 +815,33 @@ class Oracao_ {
       obx.QueryStringProperty<Oracao>(_entities[7].properties[4]);
 }
 
-/// [User] entity fields to define ObjectBox queries.
-class User_ {
-  /// See [User.id].
-  static final id = obx.QueryIntegerProperty<User>(_entities[8].properties[0]);
+/// [UserEntity] entity fields to define ObjectBox queries.
+class UserEntity_ {
+  /// See [UserEntity.id].
+  static final id =
+      obx.QueryIntegerProperty<UserEntity>(_entities[8].properties[0]);
 
-  /// See [User.uid].
-  static final uid = obx.QueryStringProperty<User>(_entities[8].properties[1]);
-
-  /// See [User.surname].
+  /// See [UserEntity.surname].
   static final surname =
-      obx.QueryStringProperty<User>(_entities[8].properties[2]);
+      obx.QueryStringProperty<UserEntity>(_entities[8].properties[1]);
 
-  /// See [User.email].
+  /// See [UserEntity.email].
   static final email =
-      obx.QueryStringProperty<User>(_entities[8].properties[3]);
+      obx.QueryStringProperty<UserEntity>(_entities[8].properties[2]);
 
-  /// See [User.name].
-  static final name = obx.QueryStringProperty<User>(_entities[8].properties[4]);
+  /// See [UserEntity.name].
+  static final name =
+      obx.QueryStringProperty<UserEntity>(_entities[8].properties[3]);
 
-  /// See [User.provedorUid].
+  /// See [UserEntity.provedorUid].
   static final provedorUid =
-      obx.QueryStringProperty<User>(_entities[8].properties[5]);
+      obx.QueryStringProperty<UserEntity>(_entities[8].properties[4]);
 
-  /// See [User.provedorAutenticacao].
+  /// See [UserEntity.provedorAutenticacao].
   static final provedorAutenticacao =
-      obx.QueryStringProperty<User>(_entities[8].properties[6]);
+      obx.QueryStringProperty<UserEntity>(_entities[8].properties[5]);
 
-  /// See [User.sexo].
-  static final sexo = obx.QueryStringProperty<User>(_entities[8].properties[7]);
-
-  /// See [User.provedorId].
-  static final provedorId =
-      obx.QueryStringProperty<User>(_entities[8].properties[8]);
+  /// See [UserEntity.sexo].
+  static final sexo =
+      obx.QueryStringProperty<UserEntity>(_entities[8].properties[6]);
 }

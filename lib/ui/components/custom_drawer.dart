@@ -143,7 +143,9 @@ class CustomDrawer extends StatelessWidget {
                         ),
                         CustomListTile(
                           title: "Configurações",
-                          onTap: () {},
+                          onTap: () {
+                            FirebaseAuth.instance.signOut();
+                          },
                           trailingAsset: "assets/svg/definicoes.svg",
                         ),
                       ],

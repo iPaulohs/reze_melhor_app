@@ -5,30 +5,39 @@ import 'package:moon_design/moon_design.dart';
 
 import '../theme/color_theme.dart';
 
-class GenderDropdown extends StatefulWidget {
-  const GenderDropdown({super.key, required this.onChanged});
+class CustomDropdown extends StatefulWidget {
+  const CustomDropdown({
+    super.key,
+    required this.onChanged,
+    required this.items,
+    required this.label,
+    this.icon,
+    this.validator
+  });
 
   final ValueChanged<String?> onChanged;
+  final List<String> items;
+  final String label;
+  final Icon? icon;
+  final FormFieldValidator<String?>? validator;
 
   @override
-  State<GenderDropdown> createState() => _GenderDropdownState();
+  State<CustomDropdown> createState() => _CustomDropdownState();
 }
 
-class _GenderDropdownState extends State<GenderDropdown> {
+class _CustomDropdownState extends State<CustomDropdown> {
   final adaptativeColor = Get.find<AdaptativeColor>();
   final _focusNode = FocusNode();
-  String? _selectedGender;
+  String? _selectedItem;
   bool _showDropdown = false;
 
-  final List<String> _genders = ["Masculino", "Feminino"];
-
-  void _handleSelect(String gender) {
+  void _handleSelect(String item) {
     setState(() {
-      _selectedGender = gender;
+      _selectedItem = item;
       _showDropdown = false;
       _focusNode.unfocus();
     });
-    widget.onChanged(gender);
+    widget.onChanged(item);
   }
 
   void _toggleDropdown() {
@@ -48,32 +57,40 @@ class _GenderDropdownState extends State<GenderDropdown> {
         onTapOutside: () => setState(() => _showDropdown = false),
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          children: _genders.map((String gender) {
+          children: widget.items.map((String item) {
             return MoonMenuItem(
-              onTap: () => _handleSelect(gender),
+              onTap: () => _handleSelect(item),
               label: Text(
-                gender,
+                item,
                 style: GoogleFonts.montserrat(
-                  color: adaptativeColor.getAdaptiveColor(context)
+                  color: adaptativeColor.getAdaptiveColor(context),
                 ),
               ),
             );
           }).toList(),
         ),
-        child: TextField(
+        child: TextFormField(
+          validator: widget.validator,
           focusNode: _focusNode,
           readOnly: true,
           onTap: _toggleDropdown,
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.male),
+            prefixIcon: widget.icon,
             filled: true,
             fillColor: adaptativeColor.getAdaptiveColorSuave(context),
             floatingLabelBehavior: FloatingLabelBehavior.never,
-            labelText: "Selecione o gênero",
-            labelStyle: GoogleFonts.montserrat(),
+            labelText: widget.label,
+            labelStyle: GoogleFonts.montserrat(color: Colors.grey[700]),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: Colors.red,
+                width: .5
+              )
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -83,7 +100,10 @@ class _GenderDropdownState extends State<GenderDropdown> {
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
             ),
-            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 12,
+            ),
             suffixIcon: MoonButton.icon(
               buttonSize: MoonButtonSize.xs,
               hoverEffectColor: Colors.transparent,
@@ -91,11 +111,14 @@ class _GenderDropdownState extends State<GenderDropdown> {
               icon: AnimatedRotation(
                 duration: const Duration(milliseconds: 200),
                 turns: _showDropdown ? -0.5 : 0,
-                child: Icon(MoonIcons.controls_chevron_down_16_light, color: adaptativeColor.getAdaptiveColor(context),),
+                child: Icon(
+                  MoonIcons.controls_chevron_down_16_light,
+                  color: adaptativeColor.getAdaptiveColor(context),
+                ),
               ),
             ),
           ),
-          controller: TextEditingController(text: _selectedGender ?? ""),
+          controller: TextEditingController(text: _selectedItem ?? ""),
         ),
       ),
     );

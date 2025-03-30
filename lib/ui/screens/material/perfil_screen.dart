@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:reze_melhor/application/states/color_app_controller.dart';
@@ -69,12 +70,15 @@ class LoginScreen extends StatelessWidget {
   final adaptativeColor = Get.find<AdaptativeColor>();
   final colorAppController = Get.find<ColorAppController>();
 
+  final emailController = TextEditingController();
+  final senhaController = TextEditingController();
+  final emailFocus = FocusNode();
+  final senhaFocus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final emailController = TextEditingController();
-    final senhaController = TextEditingController();
 
     return Center(
       child: SingleChildScrollView(
@@ -210,9 +214,9 @@ class LoginScreen extends StatelessWidget {
                                           vertical: width * 0.05,
                                         ),
                                         child: Text(
-                                          "Faça login o email",
+                                          "Faça login com o email",
                                           textAlign: TextAlign.left,
-                                          style: GoogleFonts.montserrat(
+                                          style: GoogleFonts.montserratAlternates(
                                             fontSize: width * 0.05,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -221,15 +225,27 @@ class LoginScreen extends StatelessWidget {
                                     ],
                                   ),
                                   InputLogin(
+                                    focusNode: emailFocus,
                                     controller: emailController,
                                     label: "Email",
-                                    icon: Icon(Icons.alternate_email_outlined),
+                                    icon: Icon(
+                                      Fontisto.email,
+                                      color: Colors.grey[700],
+                                    ),
                                   ),
                                   InputLogin(
+                                    focusNode: senhaFocus,
                                     controller: senhaController,
                                     label: "Senha",
-                                    icon: Icon(Icons.password),
-                                    suffixIcon: Icon(Icons.cancel),
+                                    icon: Icon(
+                                      MaterialCommunityIcons
+                                          .form_textbox_password,
+                                      color: Colors.grey[700],
+                                    ),
+                                    suffixIcon: Icon(
+                                      Ionicons.eye_outline,
+                                      color: Colors.grey[700],
+                                    ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
@@ -242,6 +258,13 @@ class LoginScreen extends StatelessWidget {
                                       children: [
                                         Expanded(
                                           child: CustomButton(
+                                            onPress: () {},
+                                            textButton: "FECHAR",
+                                          ),
+                                        ),
+                                        SizedBox(width: width * 0.075),
+                                        Expanded(
+                                          child: CustomButton(
                                             color:
                                                 colorAppController
                                                     .appColor
@@ -249,13 +272,6 @@ class LoginScreen extends StatelessWidget {
                                                     .primary,
                                             onPress: () {},
                                             textButton: "LOGIN",
-                                          ),
-                                        ),
-                                        SizedBox(width: width * 0.075),
-                                        Expanded(
-                                          child: CustomButton(
-                                            onPress: () {},
-                                            textButton: "FECHAR",
                                           ),
                                         ),
                                       ],

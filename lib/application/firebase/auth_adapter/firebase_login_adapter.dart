@@ -1,14 +1,25 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:reze_melhor/application/firebase/storage_adapter/firebase_storage_adapter.dart';
+import 'package:logger/logger.dart';
 import 'package:reze_melhor/application/utils/result_pattern.dart';
-import 'package:reze_melhor/application/view_models/auth_view_models.dart';
+import 'package:reze_melhor/domain/entities/user.dart';
+import 'package:reze_melhor/domain/enums/provedor_autenticacao.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
+import '../../dto/create_account_model.dart';
 
 class FirebaseLoginAdapter {
-    
   final firebaseAuth = FirebaseAuth.instance;
-  final firebaseStorageAdapter = Get.find<FirebaseStorageAdapter>();
+  final firebaseStorage = FirebaseStorage.instance;
+  final firebaseFirestore = FirebaseFirestore.instance;
+  final crashlitycs = FirebaseCrashlytics.instance;
+
+  final logger = Logger();
 
   Future<Result<UserCredential>> signInWithGoogleProvider() async {
     try {
@@ -33,39 +44,59 @@ class FirebaseLoginAdapter {
     }
   }
 
-  Future<Result<UserCredential>> signInWithEmailAndPasswordProvider(
-    LoginWithEmailVm loginData,
-  ) async {
+  Future<void> createAccount(CreateAccountModel model, File? fotoPerfil) async {
+    UserCredential? credentials;
     try {
-      final userCredential = await firebaseAuth.signInWithEmailAndPassword(
-        email: loginData.email,
-        password: loginData.password,
+      credentials = await firebaseAuth.createUserWithEmailAndPassword(
+        email: model.email,
+        password: model.senha,
       );
-      return Success(userCredential);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        return const Failure("user-not-found", "Usuário não encontrado.");
-      } else if (e.code == 'wrong-password') {
-        return const Failure("wrong-password", "Senha incorreta.");
-      }
-      return Failure(e.code, "Erro ao realizar o login.");
-    }
-  }
 
-  Future<Result<UserCredential>> createAccount(
-    CreateAccountVm createAccountData,
-  ) async {
-    try {
-      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
-        email: createAccountData.email,
-        password: createAccountData.password,
-      );
-      return Success(userCredential);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "email-already-exists") {
-        return const Failure("email-already-exists", "O email já está em uso.");
+      logger.i({
+        "type": "credentials",
+        "uid": credentials.user?.uid,
+        "email": credentials.user?.email,
+        "displayName": credentials.user?.displayName,
+        "photoURL": credentials.user?.photoURL,
+        "phoneNumber": credentials.user?.phoneNumber,
+        "providerId": credentials.user?.providerData.map((e) => e.providerId).toList(),
+      });
+
+      if (credentials.user != null) {
+        var user = UserEntity(
+          email: model.email,
+          name: model.nome,
+          provedorAutenticacao: ProvedorAutenticacao.emailSenha.name,
+          provedorUid: credentials.user!.uid,
+          sexo: model.sexo,
+          surname: model.sobrenome,
+
+        );
+
+        logger.i(user.toMap());
+
+        await firebaseFirestore
+            .collection("users")
+            .doc(credentials.user!.uid)
+            .set(user.toMap());
+
+        if (fotoPerfil != null) {
+          await firebaseStorage.ref("fotos-perfil/${credentials.user!.uid}").putFile(fotoPerfil);
+        }
+      } else {
+        Get.snackbar(
+          "Ops...",
+          "Ocorreu um erro ao tentar criar a conta. Tente novamente mais tarde.",
+        );
       }
-      return Failure(e.code, "Erro ao criar conta.");
+    } on Exception catch (e) {
+      if (credentials?.user != null) {
+        try {
+          await credentials!.user!.delete();
+        } catch (deleteError, deleteStackTrace) {
+          await crashlitycs.recordError(deleteError, deleteStackTrace);
+        }
+      }
     }
   }
 
