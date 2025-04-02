@@ -138,6 +138,7 @@ class FormCriarConta extends StatelessWidget {
                                           trailingAsset:
                                               "assets/svg/camera.svg",
                                           onTap: () {
+                                            Get.back();
                                             createAccountController
                                                 .setFotoPerfil(
                                                   ImageSource.camera,
@@ -154,6 +155,7 @@ class FormCriarConta extends StatelessWidget {
                                           trailingAsset:
                                               "assets/svg/galeria.svg",
                                           onTap: () {
+                                            Get.back();
                                             createAccountController
                                                 .setFotoPerfil(
                                                   ImageSource.gallery,
@@ -202,6 +204,7 @@ class FormCriarConta extends StatelessWidget {
                     ),
                   ),
                   InputLogin(
+                    obscureText: false,
                     label: "Nome",
                     controller: nomeController,
                     focusNode: nomeFocus,
@@ -217,6 +220,7 @@ class FormCriarConta extends StatelessWidget {
                     },
                   ),
                   InputLogin(
+                    obscureText: false,
                     label: "Sobrenome",
                     controller: sobrenomeController,
                     focusNode: sobrenomeFocus,
@@ -258,15 +262,8 @@ class FormCriarConta extends StatelessWidget {
                     items: ["Masculino", "Feminino", "Prefiro não Informar"],
                     label: "Sexo",
                     icon: Icon(Icons.male, color: Colors.grey[700]),
-                    onChanged: (value) {
-                      createAccountController.sexoValue = value;
-                    },
-                    validator: (value) {
-                      if (createAccountController.sexoValue == null) {
-                        return "Sexo é obrigatório";
-                      }
-                      return null;
-                    },
+                    onChanged:
+                        (value) => createAccountController.toggleSexo(value!),
                   ),
                 ],
               ),
@@ -294,6 +291,7 @@ class FormCriarConta extends StatelessWidget {
                     ),
                   ),
                   InputLogin(
+                    obscureText: false,
                     label: "Email",
                     controller: emailController,
                     focusNode: emailFocus,
@@ -309,84 +307,116 @@ class FormCriarConta extends StatelessWidget {
                       return null;
                     },
                   ),
-                  InputLogin(
-                    label: "Senha",
-                    controller: senhaController,
-                    focusNode: senhaFocus,
-                    icon: Icon(
-                      MaterialCommunityIcons.form_textbox_password,
-                      color: Colors.grey[700],
+                  Obx(
+                    () => InputLogin(
+                      obscureText: createAccountController.senhaObscure.value,
+                      label: "Senha",
+                      controller: senhaController,
+                      focusNode: senhaFocus,
+                      icon: Icon(
+                        MaterialCommunityIcons.form_textbox_password,
+                        color: Colors.grey[700],
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed:
+                            () => createAccountController.toggleSenhaObscure(),
+                        icon: Icon(
+                          createAccountController.senhaObscure.value
+                              ? Ionicons.eye_outline
+                              : Ionicons.eye_off,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Senha é obrigatória';
+                        } else if (value.length < 6) {
+                          return 'Senha deve ter pelo menos 8 caracteres';
+                        }
+
+                        return null;
+                      },
                     ),
-                    suffixIcon: Icon(
-                      Ionicons.eye_outline,
-                      color: Colors.grey[700],
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Senha é obrigatória';
-                      } else if (value.length < 8) {
-                        return 'Senha deve ter pelo menos 8 caracteres';
-                      }
-                      return null;
-                    },
                   ),
-                  InputLogin(
-                    label: "Confirme a senha",
-                    controller: confirmarSenhaController,
-                    focusNode: confirmarSenhaFocus,
-                    icon: Icon(
-                      MaterialCommunityIcons.form_textbox_password,
-                      color: Colors.grey[700],
+                  Obx(
+                    () => InputLogin(
+                      obscureText:
+                          createAccountController.confirmSenhaObscure.value,
+                      label: "Confirme a senha",
+                      controller: confirmarSenhaController,
+                      focusNode: confirmarSenhaFocus,
+                      icon: Icon(
+                        MaterialCommunityIcons.form_textbox_password,
+                        color: Colors.grey[700],
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed:
+                            () =>
+                                createAccountController
+                                    .toggleConfirmSenhaObscure(),
+                        icon: Icon(
+                          createAccountController.confirmSenhaObscure.value
+                              ? Ionicons.eye_outline
+                              : Ionicons.eye_off,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Confirme a senha';
+                        } else if (value != senhaController.text) {
+                          return 'Senhas não coincidem';
+                        }
+                        return null;
+                      },
                     ),
-                    suffixIcon: Icon(
-                      Ionicons.eye_outline,
-                      color: Colors.grey[700],
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Confirme a senha';
-                      } else if (value != senhaController.text) {
-                        return 'Senhas não coincidem';
-                      }
-                      return null;
-                    },
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    height:
-                        MediaQuery.of(context).viewInsets.bottom == 0
-                            ? height * 0.15
-                            : height * 0.05,
-                    child: Image.asset("assets/img/cruz.png"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: height * 0.035),
-                    child: Text(
-                      "Escolha um nome de usuário",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.montserratAlternates(
-                        fontSize: width * 0.04,
-                        fontWeight: FontWeight.w500,
+              Obx(
+                () => Column(
+                  children: [
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      height:
+                          MediaQuery.of(context).viewInsets.bottom == 0
+                              ? height * 0.15
+                              : height * 0.05,
+                      child: Image.asset("assets/img/cruz.png"),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: height * 0.035),
+                      child: Text(
+                        "Escolha um nome de usuário",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.montserratAlternates(
+                          fontSize: width * 0.04,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
-                  InputLogin(
-                    label: "Username",
-                    controller: usernameController,
-                    focusNode: usernameFocus,
-                    icon: Icon(Feather.users, color: Colors.grey[700]),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Username é obrigatório';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
+                    createAccountController.waiting.value
+                        ? Padding(
+                          padding: EdgeInsets.symmetric(vertical: height * 0.075),
+                          child: CircularProgressIndicator(
+                            color: adaptativeColor.getAdaptiveColor(context),
+                          ),
+                        )
+                        : InputLogin(
+                          obscureText: false,
+                          label: "Username",
+                          controller: usernameController,
+                          focusNode: usernameFocus,
+                          icon: Icon(Feather.users, color: Colors.grey[700]),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Username é obrigatório';
+                            }
+                            return null;
+                          },
+                        ),
+                  ],
+                ),
               ),
             ],
             onDone: () {},
@@ -394,20 +424,19 @@ class FormCriarConta extends StatelessWidget {
               color: colorAppController.appColor.value.primary,
               onPress: () async {
                 if (_formKey.currentState?.validate() ?? false) {
-                  var model = CreateAccountModel(
-                    email: emailController.text,
-                    senha: senhaController.text,
-                    confirmacaoSenha: confirmarSenhaController.text,
-                    nome: nomeController.text,
-                    sobrenome: sobrenomeController.text,
-                    username: usernameController.text,
-                    sexo: createAccountController.sexoValue,
+                  createAccountController.toggleAwaiting();
+                  await firebaseLoginAdapter.criarContaComEmailESenha(
+                    model: CreateAccountModel(
+                      email: emailController.text,
+                      senha: senhaController.text,
+                      confirmacaoSenha: confirmarSenhaController.text,
+                      nome: nomeController.text,
+                      sobrenome: sobrenomeController.text,
+                      username: usernameController.text,
+                      sexo: createAccountController.sexoValue,
+                    ),
                   );
-
-                  await firebaseLoginAdapter.createAccount(
-                    model,
-                    createAccountController.fotoPerfil.value?.absolute,
-                  );
+                  createAccountController.toggleAwaiting();
                 }
               },
               textButton: "Finalizar",

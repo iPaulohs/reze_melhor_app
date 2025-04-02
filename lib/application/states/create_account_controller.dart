@@ -5,17 +5,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CreateAccountController extends GetxController {
-  bool awaiting = false;
+  var waiting = false.obs;
   Rx<File?> fotoPerfil = Rx<File?>(null);
-  String? sexoValue = "Prefiro não informar";
+  String sexoValue = "Prefiro não informar";
+  var senhaObscure = true.obs;
+  var confirmSenhaObscure = true.obs;
 
-  toggleAwaiting() {
-    awaiting = !awaiting;
-  }
+  void toggleSenhaObscure() => senhaObscure.value = !senhaObscure.value;
+  void toggleConfirmSenhaObscure() => confirmSenhaObscure.value = !confirmSenhaObscure.value;
+  void toggleAwaiting() => waiting.value = !waiting.value;
+  void toggleSexo(String sexo) => sexoValue = sexo;
 
-  toggleSexo(String sexo){
-    sexoValue = sexo;
-  }
 
   Future<void> setFotoPerfil(ImageSource source) async {
     if (source == ImageSource.camera) {

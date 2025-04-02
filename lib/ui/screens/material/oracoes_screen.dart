@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:reze_melhor/ui/screens/material/pesquisa_screen.dart';
 
 import '../../../application/firebase/auth_adapter/firebase_login_adapter.dart';
-import '../../../application/firebase/functions_adapter/firebase_functions_adapter.dart';
 import '../../../application/states/color_app_controller.dart';
 import '../../../application/states/selected_day_controller.dart';
 import '../../../application/states/theme_mode_controller.dart';
@@ -23,7 +22,6 @@ class OracoesScreen extends StatelessWidget {
   final selectedDayController = Get.find<SelectedDayController>();
   final notificationService = Get.find<NotificationsService>();
   final loginService = Get.find<FirebaseLoginAdapter>();
-  final functionsAdapter = Get.find<FirebaseFunctionsAdapter>();
 
 
   String getIconTheme() {

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:reze_melhor/application/states/color_app_controller.dart';
 import 'package:reze_melhor/application/states/theme_mode_controller.dart';
 import 'package:reze_melhor/ui/components/custom_list_tile.dart';
+import 'package:reze_melhor/ui/components/foto_perfil.dart';
 import 'package:reze_melhor/ui/components/list_tile_block.dart';
 import 'package:reze_melhor/ui/screens/material/perfil_screen.dart';
 import 'package:reze_melhor/ui/theme/color_theme.dart';
@@ -47,10 +48,7 @@ class CustomDrawer extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(top: height * 0.1, bottom: height * 0.025),
-              child: CircleAvatar(
-                backgroundColor: adaptativeColor.getAdaptiveColorSuave(context),
-                radius: width * 0.1,
-              ),
+              child: FotoPerfil()
             ),
             Padding(
               padding: EdgeInsets.only(bottom: height * 0.025),
@@ -104,10 +102,16 @@ class CustomDrawer extends StatelessWidget {
                     ListTileBlock(
                       titleText: "Perfil",
                       listTiles: [
-                        CustomListTile(
-                          trailingAsset: "assets/svg/perfil.svg",
-                          title: user != null ? "Meu Perfil" : "Login",
-                          onTap: () => Get.to(() => PerfilScreen()),
+                        StreamBuilder<User?>(
+                          stream: FirebaseAuth.instance.authStateChanges(),
+                          builder: (context, snapshot) {
+                            final user = snapshot.data;
+                            return CustomListTile(
+                              trailingAsset: "assets/svg/perfil.svg",
+                              title: user != null ? "Meu Perfil" : "Login",
+                              onTap: () => Get.to(() => PerfilScreen()),
+                            );
+                          },
                         ),
                         CustomListTile(
                           trailingAsset: "assets/svg/check-carrinho.svg",

@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logger/logger.dart';
-import 'package:reze_melhor/application/services/load_biblia.dart';
-import 'package:reze_melhor/application/services/obj_box_service.dart';
+import 'package:reze_melhor/application/services/load_biblia_service.dart';
+import 'package:reze_melhor/application/services/object_box_service.dart';
 import 'package:reze_melhor/application/services/secure_storage_service.dart';
 import 'package:reze_melhor/application/states/color_app_controller.dart';
 import 'package:reze_melhor/application/states/theme_mode_controller.dart';
@@ -15,17 +16,18 @@ import 'package:reze_melhor/configuration/environment/env.dart';
 import 'package:reze_melhor/configuration/environment/init_firebase.dart';
 import 'package:reze_melhor/ui/screens/cupertino/cupertino_hscreen.dart';
 import 'package:reze_melhor/ui/screens/material/material_hscreen.dart';
-import 'package:reze_melhor/ui/screens/welcome_screen.dart';
 import 'package:reze_melhor/ui/theme/color_theme.dart';
 import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DependencyInjection.start();
   await InitFirebase.start();
-  DependencyInjection.start();
-  Get.find<ObjectBoxService>().initialize();
+  await Get.find<ObjectBoxService>().initialize();
+  await Get.put(ColorAppController()).loadColorBeforeRendering();
   initializeDateFormatting("pt-BR");
   NotificationsService().initializeNotifications();
+
   runApp(RezeMelhor());
 }
 
@@ -51,17 +53,17 @@ class RezeMelhorMaterialApp extends StatelessWidget {
   final loaBiblia = Get.find<LoadBiblia>();
 
   Future<String?> getFirstTime() async {
-    final value = await storageService.getSecureValue(StorageKeys.firstTime) ?? "true";
-     if (value == "true") {
-      final jsonString = await rootBundle.loadString('assets/json/biblia.json'); 
-      loaBiblia.salvarJsonNoStore(jsonString);
+    final value =
+        await storageService.getSecureValue(StorageKeys.firstTime) ?? "true";
+    if (value == "true") {
+      final jsonString = await rootBundle.loadString('assets/json/biblia.json');
+      await loaBiblia.salvarJsonNoStore(jsonString);
       await storageService.setSecureValue(StorageKeys.firstTime, "false");
     } else {
       await Future.delayed(Duration(milliseconds: 1500));
     }
     return value;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,64 +72,83 @@ class RezeMelhorMaterialApp extends StatelessWidget {
       future: getFirstTime(),
       builder: (context, snapshot) {
         final waiting = snapshot.connectionState == ConnectionState.waiting;
-        final firstTime = snapshot.data == "true";
+        final firstTime = snapshot.data ?? "true";
 
-        return GetBuilder<ThemeModeController>(
-          builder: (themeModeController) {
-            return GetMaterialApp(
-              home: AnimatedSwitcher(
-                duration: Duration(seconds: 1),
-                child: waiting
-                    ? Scaffold(
-                  body: Center(
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                        appColorController.appColor.value.primary,
-                        BlendMode.srcIn,
-                      ),
-                      child: Image.asset(
-                        'assets/img/rm_icon_transparent.png',
-                        width: width * 0.35,
-                      ),
+        return GetBuilder<ColorAppController>(
+          builder: (colorAppController) {
+            return GetBuilder<ThemeModeController>(
+              builder: (themeModeController) {
+                return GetMaterialApp(
+                  themeMode: themeModeController.themeMode.value,
+                  theme: ThemeData(
+                    colorScheme: const ColorScheme.light(
+                      primary: Colors.white,
+                      onPrimary: Colors.white,
+                      secondary: Colors.white,
+                      onSecondary: Colors.white,
+                      error: Colors.transparent,
+                      onError: Colors.transparent,
+                      surface: Colors.white,
+                      onSurface: Colors.black,
                     ),
+                    splashFactory: NoSplash.splashFactory,
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
                   ),
-                )
-                    : firstTime
-                    ? WelcomeScreen(key: ValueKey('welcome_screen'))
-                    : MaterialHscreen(key: ValueKey('material_hscreen')),
-              ),
-              themeMode: themeModeController.themeMode.value,
-              theme: ThemeData(
-                colorScheme: const ColorScheme.light(
-                  primary: Colors.white,
-                  onPrimary: Colors.white,
-                  secondary: Colors.white,
-                  onSecondary: Colors.white,
-                  error: Colors.transparent,
-                  onError: Colors.transparent,
-                  surface: Colors.white,
-                  onSurface: Colors.black,
-                ),
-                splashFactory: NoSplash.splashFactory,
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-              ),
-              darkTheme: ThemeData(
-                colorScheme: const ColorScheme.dark(
-                  primary: Colors.black,
-                  onPrimary: Colors.black,
-                  secondary: Colors.white,
-                  onSecondary: Colors.transparent,
-                  error: Colors.transparent,
-                  onError: Colors.transparent,
-                  surface: Colors.black,
-                  onSurface: Colors.white,
-                ),
-                splashFactory: NoSplash.splashFactory,
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-              ),
-              debugShowCheckedModeBanner: Env.env == 'dev',
+                  darkTheme: ThemeData(
+                    colorScheme: const ColorScheme.dark(
+                      primary: Colors.black,
+                      onPrimary: Colors.black,
+                      secondary: Colors.white,
+                      onSecondary: Colors.transparent,
+                      error: Colors.transparent,
+                      onError: Colors.transparent,
+                      surface: Colors.black,
+                      onSurface: Colors.white,
+                    ),
+                    splashFactory: NoSplash.splashFactory,
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                  ),
+                  debugShowCheckedModeBanner: Env.env == 'dev',
+                  home: AnimatedSwitcher(
+                    duration: Duration(seconds: 1),
+                    child: waiting
+                        ? Scaffold(
+                      body: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                colorAppController.appColor.value.primary,
+                                BlendMode.srcIn,
+                              ),
+                              child: Image.asset(
+                                'assets/img/rm_icon_transparent.png',
+                                width: width * 0.35,
+                              ),
+                            ),
+                            if (firstTime == "true") ...[
+                              const SizedBox(height: kToolbarHeight * 2),
+                              CircularProgressIndicator(
+                                color: adaptativeColor.getAdaptiveColor(context),
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                "Realizando a configuração do seu app...",
+                                style: GoogleFonts.montserratAlternates(),
+                              ),
+                            ]
+                          ],
+                        ),
+                      ),
+                    )
+                        : MaterialHscreen(key: ValueKey('material_hscreen')),
+                  ),
+                );
+              },
             );
           },
         );

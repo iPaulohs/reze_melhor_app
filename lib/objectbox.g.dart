@@ -17,7 +17,6 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'domain/entities/biblia.dart';
 import 'domain/entities/novena.dart';
 import 'domain/entities/oracao.dart';
-import 'domain/entities/user.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -242,50 +241,6 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(11, 2540859080304930753),
-      name: 'UserEntity',
-      lastPropertyId: const obx_int.IdUid(9, 6962850854028578542),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 1187259869325461198),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 7362343529323444886),
-            name: 'surname',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 5491750762232006577),
-            name: 'email',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 6054022767910148120),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 7579638603037308659),
-            name: 'provedorUid',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 8520773688030596541),
-            name: 'provedorAutenticacao',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 9170004141617453966),
-            name: 'sexo',
-            type: 9,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -328,7 +283,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
       lastIndexId: const obx_int.IdUid(3, 4436225505688040395),
       lastRelationId: const obx_int.IdUid(5, 8060589398812255660),
       lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [8161291061944171036, 4992877398909705995],
+      retiredEntityUids: const [
+        8161291061944171036,
+        4992877398909705995,
+        2540859080304930753
+      ],
       retiredIndexUids: const [],
       retiredPropertyUids: const [
         1515708134120394993,
@@ -348,7 +307,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         215812025469001283,
         5119840961069201754,
         274251187647307504,
-        6962850854028578542
+        6962850854028578542,
+        1187259869325461198,
+        7362343529323444886,
+        5491750762232006577,
+        6054022767910148120,
+        7579638603037308659,
+        8520773688030596541,
+        9170004141617453966
       ],
       retiredRelationUids: const [6253594921626277455],
       modelVersion: 5,
@@ -613,63 +579,6 @@ obx_int.ModelDefinition getObjectBoxModel() {
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
-        }),
-    UserEntity: obx_int.EntityDefinition<UserEntity>(
-        model: _entities[8],
-        toOneRelations: (UserEntity object) => [],
-        toManyRelations: (UserEntity object) => {},
-        getId: (UserEntity object) => object.id,
-        setId: (UserEntity object, int id) {
-          object.id = id;
-        },
-        objectToFB: (UserEntity object, fb.Builder fbb) {
-          final surnameOffset =
-              object.surname == null ? null : fbb.writeString(object.surname!);
-          final emailOffset = fbb.writeString(object.email);
-          final nameOffset = fbb.writeString(object.name);
-          final provedorUidOffset = fbb.writeString(object.provedorUid);
-          final provedorAutenticacaoOffset =
-              fbb.writeString(object.provedorAutenticacao);
-          final sexoOffset =
-              object.sexo == null ? null : fbb.writeString(object.sexo!);
-          fbb.startTable(10);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(2, surnameOffset);
-          fbb.addOffset(3, emailOffset);
-          fbb.addOffset(4, nameOffset);
-          fbb.addOffset(5, provedorUidOffset);
-          fbb.addOffset(6, provedorAutenticacaoOffset);
-          fbb.addOffset(7, sexoOffset);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final provedorUidParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 14, '');
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 12, '');
-          final surnameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 8);
-          final emailParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 10, '');
-          final provedorAutenticacaoParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 16, '');
-          final sexoParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 18);
-          final object = UserEntity(
-              provedorUid: provedorUidParam,
-              name: nameParam,
-              surname: surnameParam,
-              email: emailParam,
-              provedorAutenticacao: provedorAutenticacaoParam,
-              sexo: sexoParam)
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-
-          return object;
         })
   };
 
@@ -813,35 +722,4 @@ class Oracao_ {
   /// See [Oracao.conteudo].
   static final conteudo =
       obx.QueryStringProperty<Oracao>(_entities[7].properties[4]);
-}
-
-/// [UserEntity] entity fields to define ObjectBox queries.
-class UserEntity_ {
-  /// See [UserEntity.id].
-  static final id =
-      obx.QueryIntegerProperty<UserEntity>(_entities[8].properties[0]);
-
-  /// See [UserEntity.surname].
-  static final surname =
-      obx.QueryStringProperty<UserEntity>(_entities[8].properties[1]);
-
-  /// See [UserEntity.email].
-  static final email =
-      obx.QueryStringProperty<UserEntity>(_entities[8].properties[2]);
-
-  /// See [UserEntity.name].
-  static final name =
-      obx.QueryStringProperty<UserEntity>(_entities[8].properties[3]);
-
-  /// See [UserEntity.provedorUid].
-  static final provedorUid =
-      obx.QueryStringProperty<UserEntity>(_entities[8].properties[4]);
-
-  /// See [UserEntity.provedorAutenticacao].
-  static final provedorAutenticacao =
-      obx.QueryStringProperty<UserEntity>(_entities[8].properties[5]);
-
-  /// See [UserEntity.sexo].
-  static final sexo =
-      obx.QueryStringProperty<UserEntity>(_entities[8].properties[6]);
 }

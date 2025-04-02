@@ -13,7 +13,8 @@ class InputLogin extends StatelessWidget {
     required this.controller,
     required this.focusNode,
     this.onChanged,
-    this.validator
+    this.validator,
+    required this.obscureText
   });
 
   final AdaptativeColor adaptativeColor = Get.find<AdaptativeColor>();
@@ -24,6 +25,7 @@ class InputLogin extends StatelessWidget {
   final FocusNode focusNode;
   final Function(String)? onChanged;
   final FormFieldValidator<String?>? validator;
+  final bool obscureText;
 
 
 
@@ -38,6 +40,7 @@ class InputLogin extends StatelessWidget {
         vertical: height * 0.015,
       ),
       child: TextFormField(
+        obscureText: obscureText,
         validator: validator,
         onChanged: onChanged,
         focusNode: focusNode,
@@ -45,10 +48,9 @@ class InputLogin extends StatelessWidget {
         cursorColor: adaptativeColor.getAdaptiveColor(context),
         decoration: InputDecoration(
           errorText: null,
-          errorStyle: TextStyle(
-            fontSize: 0,
-            height: 0,
-            color: Colors.transparent
+          errorStyle: GoogleFonts.aBeeZee(
+            fontSize: height * 0.015,
+            color: Colors.red
           ),
           filled: true,
           fillColor: adaptativeColor.getAdaptiveColorSuave(context),

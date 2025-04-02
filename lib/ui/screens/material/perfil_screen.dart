@@ -225,6 +225,7 @@ class LoginScreen extends StatelessWidget {
                                     ],
                                   ),
                                   InputLogin(
+                                    obscureText: false,
                                     focusNode: emailFocus,
                                     controller: emailController,
                                     label: "Email",
@@ -234,6 +235,7 @@ class LoginScreen extends StatelessWidget {
                                     ),
                                   ),
                                   InputLogin(
+                                    obscureText: false,
                                     focusNode: senhaFocus,
                                     controller: senhaController,
                                     label: "Senha",

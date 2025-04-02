@@ -10,12 +10,13 @@ class ColorAppController extends GetxController {
   var appColor = Rx<ColorTheme>(RedColorScheme());
 
   @override
-  void onInit() {
-    super.onInit();
-    _loadColor();
+  Future<void> onReady() async {
+    super.onReady();
+    await loadColorBeforeRendering();
+    update();
   }
 
-  Future<void> _loadColor() async {
+  Future<void> loadColorBeforeRendering() async {
     final colorIndexStorage = await storageService.getSecureValue(StorageKeys.appColor);
     final int colorIndex = int.tryParse(colorIndexStorage ?? "") ?? ColorAppEnum.red.index;
 
@@ -29,6 +30,7 @@ class ColorAppController extends GetxController {
     appColor.value = _getColorTheme(color.value);
 
     storageService.setSecureValue(StorageKeys.appColor, nextIndex.toString());
+    update();
   }
 
   ColorTheme _getColorTheme(ColorAppEnum color) {

@@ -9,7 +9,7 @@ class ListTileBlock extends StatelessWidget {
 
   final adaptativeColor = Get.find<AdaptativeColor>();
   final String titleText;
-  final List<CustomListTile> listTiles;
+  final List<Widget> listTiles;
 
   @override
   Widget build(BuildContext context) {

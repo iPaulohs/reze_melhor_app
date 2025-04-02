@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reze_melhor/application/firebase/auth_adapter/firebase_login_adapter.dart';
-import 'package:reze_melhor/application/firebase/functions_adapter/firebase_functions_adapter.dart';
-import 'package:reze_melhor/application/services/obj_box_service.dart';
+import 'package:reze_melhor/application/services/object_box_service.dart';
 import 'package:reze_melhor/application/states/color_app_controller.dart';
 import 'package:reze_melhor/application/states/selected_day_controller.dart';
 import 'package:reze_melhor/application/states/theme_mode_controller.dart';
@@ -26,7 +25,6 @@ class HojeScreen extends StatelessWidget {
   final selectedDayController = Get.find<SelectedDayController>();
   final notificationService = Get.find<NotificationsService>();
   final loginService = Get.find<FirebaseLoginAdapter>();
-  final functionsAdapter = Get.find<FirebaseFunctionsAdapter>();
   final objBoxService = Get.find<ObjectBoxService>();
 
   String getIconTheme() {
@@ -39,11 +37,6 @@ class HojeScreen extends StatelessWidget {
     }
 
     return "assets/svg/device.svg";
-  }
-
-  Future<List<Livro>> getVersiculo() async {
-    final query = objBoxService.livroBox.query(Livro_.nome.equals("Gênesis"));
-    return query.build().find();
   }
 
   @override
