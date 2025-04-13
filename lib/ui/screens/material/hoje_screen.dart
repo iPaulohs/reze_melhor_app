@@ -1,19 +1,18 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:reze_melhor/application/backend/api_client_rm.dart';
 import 'package:reze_melhor/application/firebase/auth_adapter/firebase_login_adapter.dart';
+import 'package:reze_melhor/application/services/load_biblia_service.dart';
 import 'package:reze_melhor/application/services/object_box_service.dart';
 import 'package:reze_melhor/application/states/color_app_controller.dart';
 import 'package:reze_melhor/application/states/selected_day_controller.dart';
 import 'package:reze_melhor/application/states/theme_mode_controller.dart';
 import 'package:reze_melhor/configuration/dependencies/notifications_configuration.dart';
-import 'package:reze_melhor/domain/entities/biblia.dart';
-import 'package:reze_melhor/objectbox.g.dart';
-import 'package:reze_melhor/ui/components/calendar_bottom_sheet.dart';
 import 'package:reze_melhor/ui/components/calendar_week.dart';
 import 'package:reze_melhor/ui/components/icon_asset.dart';
 import 'package:reze_melhor/ui/screens/material/pesquisa_screen.dart';
 import 'package:reze_melhor/ui/theme/color_theme.dart';
-
 
 class HojeScreen extends StatelessWidget {
   HojeScreen({super.key, required this.openDrawer});
@@ -26,6 +25,8 @@ class HojeScreen extends StatelessWidget {
   final notificationService = Get.find<NotificationsService>();
   final loginService = Get.find<FirebaseLoginAdapter>();
   final objBoxService = Get.find<ObjectBoxService>();
+  final apiClient = Get.find<ApiClientRm>();
+  final bibliaService = Get.find<LoadBiblia>();
 
   String getIconTheme() {
     if (themeModeController.themeMode.value == ThemeMode.dark) {
@@ -39,6 +40,10 @@ class HojeScreen extends StatelessWidget {
     return "assets/svg/device.svg";
   }
 
+  Future<String> getToken() async {
+    return await FirebaseAppCheck.instance.getToken(true) ?? "";
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -47,7 +52,6 @@ class HojeScreen extends StatelessWidget {
     return Obx(
       () => Scaffold(
         appBar: AppBar(
-          toolbarHeight: kToolbarHeight * 1.75,
           title: Image.asset(
             "assets/img/rm_icon_transparent.png",
             color: appColorController.appColor.value.primary,
@@ -56,7 +60,7 @@ class HojeScreen extends StatelessWidget {
           leading: IconButton(
             onPressed: openDrawer,
             icon: Image.asset(
-                height: height * 0.025,
+              height: height * 0.025,
               "assets/img/menu.png",
               color: adaptativeColor.getAdaptiveColor(context),
             ),
@@ -71,46 +75,26 @@ class HojeScreen extends StatelessWidget {
                 w: width * 0.05,
               ),
             ),
-            IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(12),
-                    ),
-                  ),
-                  constraints: BoxConstraints(maxHeight: height * 0.6),
-                  builder: (context) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: adaptativeColor.getAdaptiveColorOnSuave(context),
-                        borderRadius: BorderRadius.circular(18)
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                        child: CalendarBottomSheet(),
-                      ),
-                    );
-                  },
-                );
-              },
-              icon: IconAsset(
-                assetName: "assets/svg/calendario.svg",
-                w: width * 0.05,
+          ],
+        ),
+        body: Column(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: CalendarWeek(),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ...List.generate(80, (_) => Text("TESTE")),
+                  ],
+                ),
               ),
             ),
           ],
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: CalendarWeek(),
-          ),
         ),
-        body: Column(children: [
-            
-          ],
-        ),
+
       ),
     );
   }

@@ -3,8 +3,5 @@ class Env {
   static const String platform = String.fromEnvironment("platform");
   static const String userOptionsRepoDir = String.fromEnvironment("userOptionsRepoDir");
   static const String bucketProfilePictures = String.fromEnvironment("bucketProfilePictures");
-
-  static const String firebaseAuthUrl = String.fromEnvironment("firebaseAuthUrl");
-  static const String firebaseStorageUrl = String.fromEnvironment("firebaseStorageUrl");
-  static const String firebaseFirestoreUrl = String.fromEnvironment("firebaseFirestoreUrl");
+  static const String backendBaseUrl = String.fromEnvironment("backendBaseUrl");
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,6 @@ Future<void> main() async {
   await DependencyInjection.start();
   await InitFirebase.start();
   await Get.find<ObjectBoxService>().initialize();
-  await Get.put(ColorAppController()).loadColorBeforeRendering();
   initializeDateFormatting("pt-BR");
   NotificationsService().initializeNotifications();
 
@@ -52,27 +52,23 @@ class RezeMelhorMaterialApp extends StatelessWidget {
   final appColorController = Get.find<ColorAppController>();
   final loaBiblia = Get.find<LoadBiblia>();
 
-  Future<String?> getFirstTime() async {
-    final value =
-        await storageService.getSecureValue(StorageKeys.firstTime) ?? "true";
-    if (value == "true") {
-      final jsonString = await rootBundle.loadString('assets/json/biblia.json');
-      await loaBiblia.salvarJsonNoStore(jsonString);
-      await storageService.setSecureValue(StorageKeys.firstTime, "false");
-    } else {
-      await Future.delayed(Duration(milliseconds: 1500));
-    }
-    return value;
+  Future<String> getFirstTime() async {
+    await FirebaseAuth.instance.signInAnonymously();
+    var primeiroAcesso =
+        await storageService.getSecureValue("PRIMEIRO_ACESSO") ?? "S";
+    storageService.setSecureValue("PRIMEIRO_ACESSO", "N");
+    await Future.delayed(Duration(milliseconds: 1500));
+    return primeiroAcesso;
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return FutureBuilder<String?>(
+    return FutureBuilder<String>(
       future: getFirstTime(),
       builder: (context, snapshot) {
         final waiting = snapshot.connectionState == ConnectionState.waiting;
-        final firstTime = snapshot.data ?? "true";
+        final primeiroAcesso = snapshot.data;
 
         return GetBuilder<ColorAppController>(
           builder: (colorAppController) {
@@ -113,39 +109,41 @@ class RezeMelhorMaterialApp extends StatelessWidget {
                   debugShowCheckedModeBanner: Env.env == 'dev',
                   home: AnimatedSwitcher(
                     duration: Duration(seconds: 1),
-                    child: waiting
-                        ? Scaffold(
-                      body: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ColorFiltered(
-                              colorFilter: ColorFilter.mode(
-                                colorAppController.appColor.value.primary,
-                                BlendMode.srcIn,
+                    child:
+                        waiting
+                            ? Scaffold(
+                              body: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ColorFiltered(
+                                      colorFilter: ColorFilter.mode(
+                                        colorAppController
+                                            .appColor
+                                            .value
+                                            .primary,
+                                        BlendMode.srcIn,
+                                      ),
+                                      child: Image.asset(
+                                        'assets/img/rm_icon_transparent.png',
+                                        width: width * 0.35,
+                                      ),
+                                    ),
+                                    CircularProgressIndicator(
+                                      color: adaptativeColor.getAdaptiveColor(
+                                        context,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              child: Image.asset(
-                                'assets/img/rm_icon_transparent.png',
-                                width: width * 0.35,
-                              ),
+                            )
+                            : primeiroAcesso == "S"
+                            ? Center()
+                            : MaterialHscreen(
+                              key: ValueKey('material_hscreen'),
                             ),
-                            if (firstTime == "true") ...[
-                              const SizedBox(height: kToolbarHeight * 2),
-                              CircularProgressIndicator(
-                                color: adaptativeColor.getAdaptiveColor(context),
-                              ),
-                              const SizedBox(height: 20),
-                              Text(
-                                "Realizando a configuração do seu app...",
-                                style: GoogleFonts.montserratAlternates(),
-                              ),
-                            ]
-                          ],
-                        ),
-                      ),
-                    )
-                        : MaterialHscreen(key: ValueKey('material_hscreen')),
                   ),
                 );
               },

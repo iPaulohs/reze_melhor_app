@@ -16,7 +16,10 @@ class FotoPerfil extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+
+        User? user = snapshot.data;
+
+        if (snapshot.connectionState == ConnectionState.waiting || user?.photoURL == null) {
           return CircleAvatar(
             radius: width * 0.1,
             child: Image.asset(
@@ -26,21 +29,10 @@ class FotoPerfil extends StatelessWidget {
           );
         }
 
-        if (snapshot.hasData) {
-          User? user = snapshot.data;
-          return CircleAvatar(
-            backgroundImage: NetworkImage(user?.photoURL ?? ''),
-            radius: width * 0.1,
-          );
-        } else {
-          return CircleAvatar(
-            radius: width * 0.1,
-            child: Image.asset(
-              'assets/img/rm_icon_transparent.png',
-              color: adaptativeColor.getAdaptiveColor(context),
-            ),
-          );
-        }
+        return CircleAvatar(
+          backgroundImage: NetworkImage(user?.photoURL ?? ''),
+          radius: width * 0.1,
+        );
       },
     );
   }

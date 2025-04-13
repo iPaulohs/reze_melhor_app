@@ -40,7 +40,6 @@ class CustomDrawer extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    final user = FirebaseAuth.instance.currentUser;
     return Obx(
       () => Drawer(
         child: Column(
@@ -134,16 +133,6 @@ class CustomDrawer extends StatelessWidget {
                           onTap: () {
                             themeModeController.toggleThemeMode();
                           },
-                        ),
-                        CustomListTile(
-                          trailingAsset: "",
-                          trailing: CircleAvatar(
-                            radius: height * 0.015,
-                            backgroundColor:
-                                appColorController.appColor.value.primary,
-                          ),
-                          title: "Cor",
-                          onTap: () => appColorController.toggleAppColor(),
                         ),
                         CustomListTile(
                           title: "Configurações",

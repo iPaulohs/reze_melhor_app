@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:reze_melhor/application/utils/result_pattern.dart';
+import 'package:reze_melhor/application/backend/api_client_rm.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../../dto/create_account_model.dart';
@@ -16,14 +14,13 @@ class FirebaseLoginAdapter {
   final storage = FirebaseStorage.instance;
   final createAccountController = Get.find<CreateAccountController>();
   final logger = Logger();
+  final apiClient = Get.find<ApiClientRm>();
 
-  Future<Result<UserCredential>> loginComGoogle() async {
+  Future<void> loginComGoogle() async {
     throw UnimplementedError();
   }
 
-  Future<void> criarContaComEmailESenha({
-    required CreateAccountModel model,
-  }) async {
+  Future<void> criarContaComEmailESenha({ required CreateAccountModel model }) async {
 
     UserCredential? credentials;
 
@@ -36,7 +33,7 @@ class FirebaseLoginAdapter {
       final user = credentials.user;
 
       if(user != null){
-        user.updateDisplayName(model.nome);
+        await user.updateDisplayName(model.nome);
 
         final entries = <String, String>{
           "sobrenome": model.username,
@@ -46,44 +43,40 @@ class FirebaseLoginAdapter {
 
         credentials.additionalUserInfo?.profile?.addEntries(entries.entries);
         await credentials.user?.sendEmailVerification();
-
-        logger.i("Usuario criado com sucesso.");
       }
 
       if (createAccountController.fotoPerfil.value != null) {
         try {
           final image = await storage
-              .ref("imagensPerfil")
+              .ref("imagens-perfil")
               .child(credentials.user!.uid)
               .putFile(createAccountController.fotoPerfil.value!.absolute);
 
           final url = await image.ref.getDownloadURL();
 
           if(url.isNotEmpty){
-            user?.updatePhotoURL(url);
+            await user?.updatePhotoURL(url);
           }
-
-          logger.i(
-            "Foto de perfil registrada com sucesso.",
-          );
         } on FirebaseException catch (e) {
-          await crashlitycs.recordError(e, e.stackTrace);
-          switch (e) {}
+          await crashlitycs.recordError(e, e.stackTrace, reason: e.code);
+          switch (e.code) {
+
+          }
         }
       }
 
       createAccountController.toggleAwaiting();
     } on FirebaseAuthException catch (e) {
-      await crashlitycs.recordError(e, e.stackTrace);
-      switch (e) {}
+      await crashlitycs.recordError(e, e.stackTrace, reason: e.code);
+      switch (e.code) {}
     }
   }
 
-  Future<Result<void>> updateEmail(String novoEmail) async {
+  Future<void> updateEmail(String novoEmail) async {
     throw UnimplementedError();
   }
 
-  Future<Result<void>> updateSenha(String novaSenha) async {
+  Future<void> updateSenha(String novaSenha) async {
     throw UnimplementedError();
   }
 }

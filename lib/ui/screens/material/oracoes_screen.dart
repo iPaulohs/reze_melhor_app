@@ -9,6 +9,7 @@ import '../../../application/states/selected_day_controller.dart';
 import '../../../application/states/theme_mode_controller.dart';
 import '../../../configuration/dependencies/notifications_configuration.dart';
 import '../../components/calendar_bottom_sheet.dart';
+import '../../components/calendar_week.dart';
 import '../../components/icon_asset.dart';
 import '../../theme/color_theme.dart';
 
@@ -43,66 +44,32 @@ class OracoesScreen extends StatelessWidget {
 
     return Obx(
           () => Scaffold(
-        appBar: AppBar(
-          leading: Builder(
-            builder:
-                (context) => GestureDetector(
-              onTap: openDrawer,
-              child: Obx(
-                    () => ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                    appColorController.appColor.value.primary,
-                    BlendMode.srcIn,
-                  ),
-                  child: Image.asset(
-                    'assets/img/rm_icon_transparent.png',
-                    width: width * 0.125,
-                  ),
+            appBar: AppBar(
+              title: Image.asset(
+                "assets/img/rm_icon_transparent.png",
+                color: appColorController.appColor.value.primary,
+                height: kToolbarHeight,
+              ),
+              leading: IconButton(
+                onPressed: openDrawer,
+                icon: Image.asset(
+                  height: height * 0.025,
+                  "assets/img/menu.png",
+                  color: adaptativeColor.getAdaptiveColor(context),
                 ),
               ),
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Get.to(PesquisaScreen());
-              },
-              icon: IconAsset(
-                assetName: "assets/svg/procurar.svg",
-                w: width * 0.05,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(8),
-                    ),
-                  ),
-                  constraints: BoxConstraints(maxHeight: height * 0.6),
-                  builder: (context) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: adaptativeColor.getAdaptiveColorInvert(context),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                        child: CalendarBottomSheet(),
-                      ),
-                    );
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Get.to(PesquisaScreen());
                   },
-                );
-              },
-              icon: IconAsset(
-                assetName: "assets/svg/calendario.svg",
-                w: width * 0.05,
-              ),
+                  icon: IconAsset(
+                    assetName: "assets/svg/procurar.svg",
+                    w: width * 0.05,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
           backgroundColor: appColorController.appColor.value.primary,

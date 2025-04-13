@@ -11,10 +11,14 @@ import 'package:reze_melhor/application/states/theme_mode_controller.dart';
 import 'package:reze_melhor/configuration/dependencies/notifications_configuration.dart';
 import 'package:reze_melhor/ui/theme/color_theme.dart';
 
+import '../../application/backend/api_client_rm.dart';
 import '../../application/states/create_account_controller.dart';
+import '../environment/env.dart';
 
 class DependencyInjection {
   static start() async  {
+    final dio = await ApiClientRm.createDioWithAuth();
+
     Get.lazyPut<ActualScreenController>(() => ActualScreenController());
     Get.lazyPut<ThemeModeController>(() => ThemeModeController());
     Get.lazyPut<SecureStorageService>(() => SecureStorageService());
@@ -26,5 +30,6 @@ class DependencyInjection {
     Get.lazyPut<ObjectBoxService>(() => ObjectBoxService());
     Get.lazyPut<LoadBiblia>(() => LoadBiblia());
     Get.put<CreateAccountController>(CreateAccountController());
+    Get.lazyPut<ApiClientRm>(() => ApiClientRm(dio, baseUrl: Env.backendBaseUrl));
   }
 }

@@ -11,9 +11,9 @@
             "flutterMode": "debug",
             "program": "lib/main.dart",
             "toolArgs": [
-                "--dart-define", "env=dev",
-                "--dart-define", "platform=android",
-                "--dart-define", "userOptionsRepoDir=user_options_db"
+                "--dart-define-from-file=lib/env.json",
+                //"--dart-define", "platform=android",
+                //"--dart-define", "userOptionsRepoDir=user_options_db"
             ]
         },
         {

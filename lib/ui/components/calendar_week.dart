@@ -33,8 +33,8 @@ class CalendarWeek extends StatelessWidget {
               (day) =>
                   isSameDay(selectedDayController.selectedDayObs.value, day),
           locale: "pt-BR",
-          firstDay: DateTime.utc(2024, 1, 1),
-          lastDay: DateTime.utc(2025, 12, 31),
+          firstDay: DateTime(DateTime.now().year, DateTime.now().month, 1),
+          lastDay: DateTime(DateTime.now().year, DateTime.now().month + 1, 0),
           calendarFormat: CalendarFormat.week,
           availableCalendarFormats: {CalendarFormat.week: 'Semana'},
           onDaySelected: (selectedDay, focusedDay) {
@@ -47,6 +47,7 @@ class CalendarWeek extends StatelessWidget {
             ),
           ),
           calendarBuilders: CalendarBuilders(
+            disabledBuilder: null,
             defaultBuilder: (context, date, _) {
               return Container(
                 margin: EdgeInsets.all(4),
